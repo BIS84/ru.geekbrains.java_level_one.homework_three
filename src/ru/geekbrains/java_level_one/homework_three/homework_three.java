@@ -23,8 +23,8 @@ public class homework_three {
 
     // initField
     private static void initField() {
-        fieldSizeX = 3;
-        fieldSizeY = 3;
+        fieldSizeX = 5;
+        fieldSizeY = 5;
         field = new char[fieldSizeY][fieldSizeX];
         for (int y = 0; y < fieldSizeY; y++) {
             for (int x = 0; x < fieldSizeX; x++) {
@@ -81,42 +81,72 @@ public class homework_three {
     }
     // checkWin
     private static boolean checkWin(char c) {
-        /*if (field[0][0] == c && field[0][1] == c && field[0][2] == c) return true;
-        if (field[1][0] == c && field[1][1] == c && field[1][2] == c) return true;
-        if (field[2][0] == c && field[2][1] == c && field[2][2] == c) return true;
-
-        if (field[0][0] == c && field[1][0] == c && field[2][0] == c) return true;
-        if (field[0][1] == c && field[1][1] == c && field[2][1] == c) return true;
-        if (field[0][2] == c && field[1][2] == c && field[2][2] == c) return true;
-
-        if (field[0][0] == c && field[1][1] == c && field[2][2] == c) return true;
-        if (field[2][0] == c && field[1][1] == c && field[0][2] == c) return true;*/
 
         int win = c;
-
         for (int j = 0; j < fieldSizeY; j++) {
-            int sum = 0;
+            int sumWinX = 0;
             for (int i = 0; i < fieldSizeX; i++) {
-                sum += field[j][i];
+                int a = field[j][i];
+                if (i > 0 && i < fieldSizeX - 1 && a != win) {
+                    sumWinX = 0;
+                    break;
+                }
+                if (a == win) sumWinX++;
+                if (sumWinX == fieldSizeX - 1) return true;
             }
-            if (sum / fieldSizeX == win) return true;
         }
         for (int i = 0; i < fieldSizeX; i++) {
-            int sum = 0;
+            int sumWinY = 0;
             for (int j = 0; j < fieldSizeY; j++) {
-                sum += field[j][i];
+                int a = field[j][i];
+                if (j > 0 && j < fieldSizeY - 1 && a != win) {
+                    sumWinY = 0;
+                    break;
+                }
+                if (a == win) sumWinY++;
+                if (sumWinY == fieldSizeX - 1) return true;
             }
-            if (sum / fieldSizeY == win) return true;
         }
         int j = fieldSizeX - 1;
         int sum1 = 0;
         int sum2 = 0;
         for (int i = 0; i <= j; i++) {
-            sum1 += field[i][i];
-            sum2 += field[i][j-i];
+            int a = field[i][i];
+            int b = field[i][j - i];
+            if (i > 0 && i < j && a != win) {
+                sum1 = 0;
+            }
+            if (i > 0 && i < j && b != win) {
+                sum2 = 0;
+            }
+            if (a == win) {
+                sum1++;
+            }
+            if (b == win) {
+                sum2++;
+            }
+            if (sum1 == j || sum2 == j) {
+                return true;
+            }
         }
-        if (sum1 / fieldSizeX == win || sum2 / fieldSizeX == win) return true;
-
+        sum1 = 0;
+        sum2 = 0;
+        int sumA = 0;
+        int sumB = 0;
+        int sumC = 0;
+        int sumD = 0;
+        for (int i = 0; i < j; i++) {
+            sumA += field[i][i + 1];
+            sumB += field[j - i][i + 1];
+        }
+        for (int i = 1; i < fieldSizeY; i++) {
+            sumC += field[i][i - 1];
+            sumD += field[j - i][i - 1];
+        }
+        if (sumA / j == win ||
+                sumB / j == win ||
+                sumC / j == win ||
+                sumD / j == win) return true;
 
         return false;
     }
