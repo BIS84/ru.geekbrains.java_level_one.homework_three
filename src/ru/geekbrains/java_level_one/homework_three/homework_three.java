@@ -23,8 +23,8 @@ public class homework_three {
 
     // initField
     private static void initField() {
-        fieldSizeX = 5;
-        fieldSizeY = 5;
+        fieldSizeX = 3;
+        fieldSizeY = 3;
         field = new char[fieldSizeY][fieldSizeX];
         for (int y = 0; y < fieldSizeY; y++) {
             for (int x = 0; x < fieldSizeX; x++) {
@@ -61,14 +61,158 @@ public class homework_three {
         } while (!isCellValid(x, y) || !isCellEmpty(x, y));
         field[y][x] = DOT_HUMAN;
     }
-    // aiTurn
-    private static void aiTurn() {
+
+    // artificialIntelligence
+    private static int[] artificialIntelligence(int b[]) {
         int x;
         int y;
+
+        // lineCheckWin
+        for (int j = 0; j < fieldSizeY; j++) {
+            char a[] = new char[3];
+            for (int i = 0; i < fieldSizeX; i++) {
+                a[i] = field[j][i];
+                if (field[j][i] == DOT_EMPTY) {
+                    b[0] = j;
+                    b[1] = i;
+                }
+            }
+            if ((a[0] == DOT_AI && a[1] == DOT_AI && a[2] == DOT_EMPTY)
+                    || (a[0] == DOT_AI && a[1] == DOT_EMPTY && a[2] == DOT_AI)
+                    || (a[0] == DOT_EMPTY && a[1] == DOT_AI && a[2] == DOT_AI)) {
+                return b;
+            }
+        }
+
+        // columnCheckWin
+        for (int i = 0; i < fieldSizeX; i++) {
+            char a[] = new char[3];
+            for (int j = 0; j < fieldSizeY; j++) {
+                a[j] = field[j][i];
+                if (field[j][i] == DOT_EMPTY) {
+                    b[0] = j;
+                    b[1] = i;
+                }
+            }
+            if ((a[0] == DOT_AI && a[1] == DOT_AI && a[2] == DOT_EMPTY)
+                    || (a[0] == DOT_AI && a[1] == DOT_EMPTY && a[2] == DOT_AI)
+                    || (a[0] == DOT_EMPTY && a[1] == DOT_AI && a[2] == DOT_AI)) {
+                return b;
+            }
+        }
+
+        // diagonalCheckWin
+        char s[] = new char[3];
+        char f[] = new char[3];
+        for (int i = 0; i < fieldSizeX; i++) {
+            s[i] = field[i][i];
+            f[i] = field[i][fieldSizeX - 1 -i];
+            if (field[i][i] == DOT_EMPTY) {
+                b[0] = i;
+                b[1] = i;
+            }
+        }
+        if ((s[0] == DOT_AI && s[1] == DOT_AI && s[2] == DOT_EMPTY)
+                || (s[0] == DOT_AI && s[1] == DOT_EMPTY && s[2] == DOT_AI)
+                || (s[0] == DOT_EMPTY && s[1] == DOT_AI && s[2] == DOT_AI)) {
+            return b;
+        }
+        for (int i = 0; i < fieldSizeX; i++) {
+            s[i] = field[i][i];
+            f[i] = field[i][fieldSizeX - 1 -i];
+            if (field[i][fieldSizeX - 1 -i] == DOT_EMPTY) {
+                b[0] = fieldSizeX - 1 -i;
+                b[1] = i;
+            }
+        }
+        if ((f[0] == DOT_AI && f[1] == DOT_AI && f[2] == DOT_EMPTY)
+                || (f[0] == DOT_AI && f[1] == DOT_EMPTY && f[2] == DOT_AI)
+                || (f[0] == DOT_EMPTY && f[1] == DOT_AI && f[2] == DOT_AI)) {
+            return b;
+        }
+
+        // lineCheckSecurity
+        for (int j = 0; j < fieldSizeY; j++) {
+            char a[] = new char[3];
+            for (int i = 0; i < fieldSizeX; i++) {
+                a[i] = field[j][i];
+                if (field[j][i] == DOT_EMPTY) {
+                    b[0] = j;
+                    b[1] = i;
+                }
+            }
+            if ((a[0] == DOT_HUMAN && a[1] == DOT_HUMAN && a[2] == DOT_EMPTY)
+                    || (a[0] == DOT_HUMAN && a[1] == DOT_EMPTY && a[2] == DOT_HUMAN)
+                    || (a[0] == DOT_EMPTY) && a[1] == DOT_HUMAN && a[2] == DOT_HUMAN) {
+                return b;
+            }
+        }
+
+        // columnCheckSecurity
+        for (int i = 0; i < fieldSizeX; i++) {
+            char a[] = new char[3];
+            for (int j = 0; j < fieldSizeY; j++) {
+                a[j] = field[j][i];
+                if (field[j][i] == DOT_EMPTY) {
+                    b[0] = j;
+                    b[1] = i;
+                }
+            }
+            if ((a[0] == DOT_HUMAN && a[1] == DOT_HUMAN && a[2] == DOT_EMPTY)
+                    || (a[0] == DOT_HUMAN && a[1] == DOT_EMPTY && a[2] == DOT_HUMAN)
+                    || (a[0] == DOT_EMPTY) && a[1] == DOT_HUMAN && a[2] == DOT_HUMAN) {
+                return b;
+            }
+        }
+
+        // diagonalCheckSecurity
+        char k[] = new char[3];
+        char l[] = new char[3];
+        for (int i = 0; i < fieldSizeX; i++) {
+            k[i] = field[i][i];
+            l[i] = field[i][fieldSizeX - 1 -i];
+            if (field[i][i] == DOT_EMPTY) {
+                b[0] = i;
+                b[1] = i;
+            }
+        }
+        if ((k[0] == DOT_HUMAN && k[1] == DOT_HUMAN && k[2] == DOT_EMPTY)
+                || (k[0] == DOT_HUMAN && k[1] == DOT_EMPTY && k[2] == DOT_HUMAN)
+                || (k[0] == DOT_EMPTY && k[1] == DOT_HUMAN && k[2] == DOT_HUMAN)) {
+            return b;
+        }
+        for (int i = 0; i < fieldSizeX; i++) {
+            l[i] = field[i][fieldSizeX - 1 -i];
+            if (field[fieldSizeX - 1 -i][i] == DOT_EMPTY) {
+                b[0] = fieldSizeX - 1 -i;
+                b[1] = i;
+            }
+
+        }
+        if ((l[0] == DOT_HUMAN && l[1] == DOT_HUMAN && l[2] == DOT_EMPTY)
+                || (l[0] == DOT_HUMAN && l[1] == DOT_EMPTY && l[2] == DOT_HUMAN)
+                || (l[0] == DOT_EMPTY && l[1] == DOT_HUMAN && l[2] == DOT_HUMAN)) {
+            return b;
+        }
+
+
         do {
             x = RANDOM.nextInt(fieldSizeX);
             y = RANDOM.nextInt(fieldSizeY);
         } while (!isCellEmpty(x, y));
+        b[0] = y;
+        b[1] = x;
+        return b;
+    }
+
+    // aiTurn
+    private static void aiTurn() {
+        int x;
+        int y;
+        int b[] = new int[2];
+        artificialIntelligence(b);
+        y = b[0];
+        x = b[1];
         field[y][x] = DOT_AI;
     }
     // isCellEmpty
@@ -83,70 +227,30 @@ public class homework_three {
     private static boolean checkWin(char c) {
 
         int win = c;
+
         for (int j = 0; j < fieldSizeY; j++) {
-            int sumWinX = 0;
+            int sum = 0;
             for (int i = 0; i < fieldSizeX; i++) {
-                int a = field[j][i];
-                if (i > 0 && i < fieldSizeX - 1 && a != win) {
-                    sumWinX = 0;
-                    break;
-                }
-                if (a == win) sumWinX++;
-                if (sumWinX == fieldSizeX - 1) return true;
+                sum += field[j][i];
             }
+            if (sum / fieldSizeX == win) return true;
         }
         for (int i = 0; i < fieldSizeX; i++) {
-            int sumWinY = 0;
+            int sum = 0;
             for (int j = 0; j < fieldSizeY; j++) {
-                int a = field[j][i];
-                if (j > 0 && j < fieldSizeY - 1 && a != win) {
-                    sumWinY = 0;
-                    break;
-                }
-                if (a == win) sumWinY++;
-                if (sumWinY == fieldSizeX - 1) return true;
+                sum += field[j][i];
             }
+            if (sum / fieldSizeY == win) return true;
         }
         int j = fieldSizeX - 1;
         int sum1 = 0;
         int sum2 = 0;
         for (int i = 0; i <= j; i++) {
-            int a = field[i][i];
-            int b = field[i][j - i];
-            if (i > 0 && i < j && a != win) {
-                sum1 = 0;
-            }
-            if (i > 0 && i < j && b != win) {
-                sum2 = 0;
-            }
-            if (a == win) {
-                sum1++;
-            }
-            if (b == win) {
-                sum2++;
-            }
-            if (sum1 == j || sum2 == j) {
-                return true;
-            }
+            sum1 += field[i][i];
+            sum2 += field[i][j-i];
         }
-        sum1 = 0;
-        sum2 = 0;
-        int sumA = 0;
-        int sumB = 0;
-        int sumC = 0;
-        int sumD = 0;
-        for (int i = 0; i < j; i++) {
-            sumA += field[i][i + 1];
-            sumB += field[j - i][i + 1];
-        }
-        for (int i = 1; i < fieldSizeY; i++) {
-            sumC += field[i][i - 1];
-            sumD += field[j - i][i - 1];
-        }
-        if (sumA / j == win ||
-                sumB / j == win ||
-                sumC / j == win ||
-                sumD / j == win) return true;
+        if (sum1 / fieldSizeX == win || sum2 / fieldSizeX == win) return true;
+
 
         return false;
     }
